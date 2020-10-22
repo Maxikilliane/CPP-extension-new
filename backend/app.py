@@ -33,9 +33,7 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config.update(
     CELERY_BROKER_URL='redis://localhost:6379',
-    CELERY_RESULT_BACKEND='redis://localhost:6379',
-    # CELERY_BROKER_URL='redis://h:p6833077c405eae8fa3f50c46cd21bc12a55d360bf89962023f75883968bf6069@ec2-54-209-124-149.compute-1.amazonaws.com:18179',
-    # CELERY_RESULT_BACKEND='redis://h:p6833077c405eae8fa3f50c46cd21bc12a55d360bf89962023f75883968bf6069@ec2-54-209-124-149.compute-1.amazonaws.com:18179'
+    CELERY_RESULT_BACKEND='redis://localhost:6379'
 )
 celery = make_celery(app)
 app.config.from_object(APP_SETTINGS)
