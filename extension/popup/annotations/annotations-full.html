@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="annotations-full.css" />
+  <link rel="stylesheet" href="../../libraries/uikit.min.css" />
+  <script src="../../libraries/uikit.js"></script>
+  <script src="../../libraries/uikit-icons.min.js"></script>
+  <link href="../../libraries/all.css" rel="stylesheet">
+  <script defer src="../../libraries/all.js"></script>
+  <title>Complete Annotations</title>
+</head>
+
+<body>
+  <h1>Complete Annotations</h1>
+  <ul uk-accordion>
+    <li class="uk-open">
+      <a class="uk-accordion-title" href="#">All Predictions</a>
+      <div class="uk-accordion-content">
+        <table class="uk-table uk-table-justify uk-table-divider uk-table-hover">
+          <thead>
+            <tr>
+              <th>Sentence</th>
+              <th class="uk-width-small">Main Prediction</th>
+              <th class="uk-width-small">Attribute Prediction</th>
+            </tr>
+          </thead>
+          <tbody id="annotationsTable">
+
+          </tbody>
+
+        </table>
+      </div>
+    </li>
+  </ul>
+  <button class="uk-button uk-button-primary" id="send">Send Assessments</button>
+  <script src="annotations-full.js"></script>
+</body>
+
+</html>

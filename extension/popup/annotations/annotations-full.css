@@ -1,0 +1,32 @@
+body {
+  margin: 2em !important;
+  margin-left: 6em !important;
+  margin-right: 6em !important;
+}
+
+td {
+  font-size: 1.2em;
+}
+
+.uk-table-hover tbody tr:hover, .uk-table-hover>tr:hover {
+  background: rgb(0, 188, 212, 0.1) !important;
+}
+
+svg {
+  margin-left: 1px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+}
+
+input {
+  float: left;
+  margin-top: 2px !important;
+  margin-right: 5px !important;
+}
+
+.uk-button-primary {
+    background-color: #00BCD4 !important;
+}

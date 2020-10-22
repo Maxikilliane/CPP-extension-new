@@ -1,0 +1,200 @@
+body {
+  min-width: 600px;
+  min-height: 1000px;
+  font-size: 0.8em;
+}
+
+h3 {
+  color: #5C6162 !important;
+}
+
+h4 {
+  padding-left: 20px;
+}
+
+a {
+  color: black !important;
+}
+
+label {
+  padding-right: 10px;
+}
+
+.heading {
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.normalText {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#status {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+#statusHeader {
+  padding-top: 10px;
+  color: white;
+  font-size: 1.2em;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: bold;
+}
+
+#annotationLink {
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 1.3em;
+}
+
+#statusText {
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.ogStatus {
+  display: none;
+}
+
+.success {
+  background-color: #43A047;
+  display: block;
+}
+
+.error {
+  background-color: #B71C1C;
+  display: block;
+}
+
+.uk-radio {
+  margin-right: 5px !important;
+}
+
+.generating {
+  background-color: #455A64;
+  display: block;
+}
+
+.switch {
+  padding-top: 10px;
+}
+
+#questionnaire {
+  display: none;
+  padding: 20px;
+}
+
+#end {
+  display: none;
+}
+
+#questionnaireButton {
+  background-color: #00BCD4;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.uk-text-meta {
+  color: black !important;
+  font-weight: bold;
+  padding-top: 1em;
+}
+
+.uk-text-large {
+  color: black;
+}
+
+.uk-button-default:focus, .uk-button-default:hover {
+  background-color: #ffdfb3 !important;
+  color: #cc7700 !important;
+  border-color: #cc7700 !important;
+}
+
+.uk-form-label {
+  color: black;
+}
+
+#endHeading {
+  font-size: 4em !important;
+  font-weight: bold;
+  text-align: center;
+}
+
+#errorMessage {
+  margin-left: 20px !important;
+  display: none;
+  margin-top: -20px !important;
+  font-weight: bold;
+}
+
+#demographicsButton {
+  background-color: #00BCD4;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+#demographicData {
+  margin-left: 20px;
+  margin-right: 20px;
+  display: none;
+}
+
+#demographicAge {
+  width: 70px;
+}
+
+.uk-button-default {
+  background-color: transparent !important;
+  color: #cc7700 !important;
+  border: 1px solid #cc7700 !important;
+}
+
+.settings {
+  display: flex;
+  align-items: center;
+}
+
+img {
+  margin-top: 2em;
+  margin-right: 1em;
+  width: 60px !important;
+  height: 60px !important;
+}
+
+p {
+  margin: 0 !important;
+  padding: 0;
+  padding-bottom: 10px;
+}
+
+textarea {
+  margin-left: 20px !important;
+  margin-bottom: 2em !important;
+  width: 90% !important;
+}
+
+.hidden {
+  display: none;
+}
+
+.button {
+  margin: 3% auto;
+  padding: 4px;
+  text-align: center;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+#settingsButton {
+  margin-left: 20px;
+  margin-bottom: 20px;
+}

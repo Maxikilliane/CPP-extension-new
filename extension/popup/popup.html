@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="cpp_settings.css" />
+  <!-- UIkit CSS -->
+  <link rel="stylesheet" href="../libraries/uikit.min.css" />
+  <script src="../../libraries/jquery.js"></script>
+</head>
+
+<body>
+  <div id="popup-content">
+    <div class="heading">
+      <img src="../icons/icon_cpp.png"></img>
+      <h3>Contextual Privacy Policies</h3>
+    </div>
+    <hr>
+    <div>
+      <div id="start">
+        <div id="status" class="ogStatus">
+          <p class="uk-text-medium" id="statusHeader"></p>
+          <p class="uk-text-medium" id="statusText"></p>
+          <p class="uk-text-bold" id="annotationLink">Click&nbsp;<a href="annotations/annotations-full.html" target="_blank">here</a>&nbsp;to view the full annotation.</p>
+        </div>
+        <div>
+          <p class="uk-text-medium normalText">This browser plugin automatically analyzes the privacy policy of the page you are currently visiting and displays relevant information directly in their corresponding contexts. This saves you time and
+            helps you
+            connect your actions with the abstract wording of the policies.</p>
+          <p class="uk-text-bold normalText">If you want to remove all CPP bubbles on the current page, press: Alt+Shift+D</p>
+
+        </div>
+      </div>
+      <div id="questionnaire">
+        <p class="uk-text-large">Please state to which extent you agree with the following statements:</p>
+        <button class="uk-button uk-button-primary" id="noBubblesButton">I don't see a bubble highlighted in green</button>
+        <p class="uk-text-meta">Judge these statements only by looking at the bubble highlighted in green</p>
+        <div class="uk-grid-small uk-child-width-auto uk-grid" id="ratingVisibiliyBubble">
+          <p class="uk-form-label">The bubble is completely visible (you see a bubble highlighted in green and no parts of it are covered by elements of the website).</p>
+          <div>
+            <label><input class="uk-radio ratingVisibiliyBubble" group="questionnaire" type="radio" value="1" name="ratingVisibiliyBubble">Strongly Disagree</label>
+            <label><input class="uk-radio ratingVisibiliyBubble" group="questionnaire" type="radio" value="2" name="ratingVisibiliyBubble">Disagree</label>
+            <label><input class="uk-radio ratingVisibiliyBubble" group="questionnaire" type="radio" value="3" name="ratingVisibiliyBubble">Neutral</label>
+            <label><input class="uk-radio ratingVisibiliyBubble" group="questionnaire" type="radio" value="4" name="ratingVisibiliyBubble">Agree</label>
+            <label><input class="uk-radio ratingVisibiliyBubble" group="questionnaire" type="radio" value="5" name="ratingVisibiliyBubble">Strongly Agree</label>
+          </div>
+        </div>
+        <p class="uk-margin uk-text-meta">Judge these statements after clicking on the bubble highlighted in green</p>
+        <div class="uk-grid-small uk-child-width-auto uk-grid" id="ratingVisibiliySidebar">
+          <p class="uk-form-label">The text of the sidebar is completely readable (no text is covered by elements of the website).</p>
+          <div>
+            <label><input class="uk-radio ratingVisibiliySidebar" group="questionnaire" type="radio" value="1" name="ratingVisibiliySidebar">Strongly Disagree</label>
+            <label><input class="uk-radio ratingVisibiliySidebar" group="questionnaire" type="radio" value="2" name="ratingVisibiliySidebar">Disagree</label>
+            <label><input class="uk-radio ratingVisibiliySidebar" group="questionnaire" type="radio" value="3" name="ratingVisibiliySidebar">Neutral</label>
+            <label><input class="uk-radio ratingVisibiliySidebar" group="questionnaire" type="radio" value="4" name="ratingVisibiliySidebar">Agree</label>
+            <label><input class="uk-radio ratingVisibiliySidebar" group="questionnaire" type="radio" value="5" name="ratingVisibiliySidebar">Strongly Agree</label>
+          </div>
+        </div>
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" id="ratingCategoryAndPlacement">
+          <p class="uk-form-label">The sidebar's category (heading/icon) matches with the placement of the bubble (the element highlighted in red), e.g. the bubble containing information about advertisements is placed on advertisements.
+          </p>
+          <p>You can also drag the bubble, if necessary, to better identify on which element it is placed.</p>
+          <div>
+            <label><input class="uk-radio ratingCategoryAndPlacement" group="questionnaire" type="radio" value="1" name="ratingCategoryAndPlacement">Strongly Disagree</label>
+            <label><input class="uk-radio ratingCategoryAndPlacement" group="questionnaire" type="radio" value="2" name="ratingCategoryAndPlacement">Disagree</label>
+            <label><input class="uk-radio ratingCategoryAndPlacement" group="questionnaire" type="radio" value="3" name="ratingCategoryAndPlacement">Neutral</label>
+            <label><input class="uk-radio ratingCategoryAndPlacement" group="questionnaire" type="radio" value="4" name="ratingCategoryAndPlacement">Agree</label>
+            <label><input class="uk-radio ratingCategoryAndPlacement" group="questionnaire" type="radio" value="5" name="ratingCategoryAndPlacement">Strongly Agree</label>
+          </div>
+        </div>
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" id="ratingCategoryAndText">
+          <p class="uk-form-label">The bullet points match the category/heading/icon, e.g. the bullet points contain information about advertisements when the heading is "Advertising".
+          </p>
+          <div>
+            <label><input class="uk-radio ratingCategoryAndText" group="questionnaire" type="radio" value="1" name="ratingCategoryAndText">Strongly Disagree</label>
+            <label><input class="uk-radio ratingCategoryAndText" group="questionnaire" type="radio" value="2" name="ratingCategoryAndText">Disagree</label>
+            <label><input class="uk-radio ratingCategoryAndText" group="questionnaire" type="radio" value="3" name="ratingCategoryAndText">Neutral</label>
+            <label><input class="uk-radio ratingCategoryAndText" group="questionnaire" type="radio" value="4" name="ratingCategoryAndText">Agree</label>
+            <label><input class="uk-radio ratingCategoryAndText" group="questionnaire" type="radio" value="5" name="ratingCategoryAndText">Strongly Agree</label>
+          </div>
+        </div>
+      </div>
+      <div id="demographicData">
+        <h3>Demographics</h3>
+        <div class="uk-margin" id="demographicGender">
+          <p class="uk-form-label">As which gender do you identify?</p>
+          <div>
+            <label><input class="uk-radio demographicGender" group="gender" type="radio" value="female" name="demographicGender">Female</label>
+            <label><input class="uk-radio demographicGender" group="gender" type="radio" value="male" name="demographicGender">Male</label>
+            <label><input class="uk-radio demographicGender" group="gender" type="radio" value="diverse" name="demographicGender">Diverse</label>
+          </div>
+        </div>
+        <p class="uk-form-label">How old are you?</p>
+        <div>
+          <input id="demographicAge" class="uk-input" type="number" placeholder="Age">
+        </div>
+        <div class="uk-margin" id="demographicOccupation">
+          <p class="uk-form-label">What is your current occupation?</p>
+          <div>
+            <label><input class="uk-radio demographicOccupation" group="occupation" type="radio" value="Pupil" name="demographicOccupation">Pupil or in an apprenticeship</label>
+            <label><input class="uk-radio demographicOccupation" group="occupation" type="radio" value="Student" name="demographicOccupation">Student</label>
+            <label><input class="uk-radio demographicOccupation" group="occupation" type="radio" value="Working" name="demographicOccupation">Working</label>
+            <label><input class="uk-radio demographicOccupation" group="occupation" type="radio" value="Other" name="demographicOccupation">Other</label>
+          </div>
+        </div>
+        <p class="uk-form-label">Please describe your current occupation in a bit more detail</p>
+        <div>
+          <input id="demographicOccupationDesc" class="uk-input" type="text" placeholder="">
+        </div>
+        <button class="uk-button uk-button-primary" id="demographicsButton">Send demographics</button>
+      </div>
+    </div>
+    <div id="end">
+      <h4 id="endHeading">Thank you! 💐🤗</h4>
+    </div>
+    <p id="errorMessage" class="uk-text-danger">Please answer all questions before proceeding.</p>
+    <button class="uk-button uk-button-primary" id="questionnaireButton">Start Questionnaire</button>
+    <div id="error-content" class="hidden">
+      <p>Sorry. The plugin does not work on this page.</p>
+    </div>
+  </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+
+</html>

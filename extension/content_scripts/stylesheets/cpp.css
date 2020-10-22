@@ -1,0 +1,195 @@
+@font-face {
+  font-family: "cpp-font";
+  font-style: normal;
+  font-weight: 700;
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/RobotoCondensed-Regular.ttf");
+}
+
+body {
+  -webkit-transition: 300ms linear;
+  -moz-transition: 300ms linear;
+  -o-transition: 300ms linear;
+  -ms-transition: 300ms linear;
+  transition: 300ms linear;
+}
+
+header {
+  -webkit-transition: 300ms linear;
+  -moz-transition: 300ms linear;
+  -o-transition: 300ms linear;
+  -ms-transition: 300ms linear;
+  transition: 300ms linear;
+}
+
+.masthead-social__item {
+  opacity: 1 !important;
+}
+
+.cppBox {
+  width: fit-content !important;
+  position: absolute !important;
+  z-index: 9999999 !important;
+  height: 60px !important;
+  width: 60px !important;
+}
+
+.outerBox {
+  position: fixed !important;
+}
+
+.cppFrame {
+  width: 80px;
+  height: 100%;
+  position: fixed;
+  z-index: 10000000;
+  top: 0;
+  right: 0;
+  transition: 0.5s;
+  background: rgba(255, 255, 255, 0.9);
+  display: table;
+}
+
+.cppLogo {
+  height: 45px !important;
+  border-radius: 45px !important;
+  box-shadow: rgb(204, 204, 204) 3px 3px 10px 5px !important;
+  width: 45px !important;
+  position: absolute !important;
+  z-index: 9999998 !important;
+  background: #00BCD4 !important;
+  cursor: move !important;
+  opacity: 0.9;
+}
+
+.cppUL {
+  font-size: 1em !important;
+  padding-left: 0px !important;
+  list-style-type: disc !important;
+  color: black !important;
+}
+
+.categoryImage {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 70px !important;
+  height: 70px !important;
+  margin-top: 15px !important;
+  margin-left: 15px !important;
+}
+
+.cppText::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+.cppText::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+.cppText {
+  line-height: 22px !important;
+  width: auto;
+  position: fixed !important;
+  box-shadow: 3px 3px 5px 6px #ccc !important;
+  padding: 5px !important;
+  background-color: white !important;
+  font-size: 18px !important;
+  list-style-type: disc !important;
+  z-index: 10000000 !important;
+  height: 100%;
+  overflow-y: auto;
+  white-space: break-spaces !important;
+  font-family: 'cpp-font' !important;
+  display: block !important;
+}
+
+.highlight-cpp {
+  border: red !important;
+  background: red !important;
+  color: white !important;
+  box-shadow: red 3px 3px 10px 5px !important;
+}
+
+.cpp-explanation {
+  font-size: 0.5em;
+  margin-top: 0.2em;
+  line-height: inherit !important;
+  color: #616161;
+  text-transform: initial;
+}
+
+.cppLI {
+  line-height: inherit !important;
+  font-family: 'cpp-font' !important;
+  text-align: left !important;
+  line-height: 1.3 !important;
+  color: black !important;
+  font-size: 1em !important;
+  display: list-item !important;
+  margin-left: 30px !important;
+  margin-bottom: 1em;
+  font-weight: normal;
+  list-style-type: disc !important;
+  white-space: break-spaces !important;
+}
+
+.highlight-questionnaire {
+  border: green !important;
+  background: green !important;
+  color: white !important;
+  box-shadow: green 3px 3px 10px 5px !important;
+}
+
+.cppHeader {
+  font-weight: bold !important;
+  margin-left: 3em !important;
+  padding-top: 0em !important;
+  padding-bottom: 0em !important;
+  margin-top: 1em !important;
+  margin-bottom: 30px !important;
+  font-size: 1.5em !important;
+  line-height: 1 !important;
+  display: block !important;
+  text-align: initial !important;
+  font: 1.5em "cpp-font", sans-serif !important;
+  text-transform: capitalize !important;
+  font-family: 'cpp-font' !important;
+  color: black !important;
+  padding-left: 0.3em !important;
+}
+
+.overlay-cpp {
+  position: fixed;
+  display: block !important;
+  z-index: 9999999 !important;
+  -webkit-transition: 300ms linear;
+  -moz-transition: 300ms linear;
+  -o-transition: 300ms linear;
+  -ms-transition: 300ms linear;
+  transition: 300ms linear;
+  /* Sit on top of the page content */
+  /* Hidden by default */
+  width: 0%;
+  /* Full width (cover the whole page) */
+  height: 100%;
+  /* Full height (cover the whole page) */
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  /* Black background with opacity */
+  cursor: pointer;
+  /* Add a pointer on hover */
+}
+
+.overlay-cpp * {
+  font-family: 'Lato', Helvetica, sans-serif !important;
+}
+
+#overlayBox {
+  padding: 10px;
+  background-color: white;
+  font-family: 'Lato', Helvetica, sans-serif !important;
+}

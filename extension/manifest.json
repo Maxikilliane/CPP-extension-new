@@ -1,0 +1,35 @@
+{
+  "manifest_version": 2,
+  "name": "CPP",
+  "description": "This browser plugin uses Machine Learning to automatically analyze the privacy policy of the page you are currently visiting and then displays the relevant information directly in their corresponding contexts. This saves you time and helps you connect your actions with the abstract wording of the policies. The plugin saves the annotation of the page and the corresponding url without any personal identifiable information.",
+  "version": "0.1",
+  "author": "Maximiliane Windl",
+  "icons": {
+    "48": "icons/icon_cpp.png"
+  },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["libraries/HtmlSanitizer.js", "libraries/jquery.js", "libraries/jqueryUi.js", "content_scripts/contentScript.js"],
+    "run_at": "document_start",
+    "css": ["content_scripts/stylesheets/cpp.css"]
+  }],
+  "background": {
+    "scripts": ["libraries/jquery.js", "background/background.js", "libraries/jquery.js"],
+    "persistent": false
+  },
+  "commands": {
+    "delete-cpps": {
+      "suggested_key": { "default": "Alt+Shift+D" },
+      "description": "Remove all CPP bubbles on the current tab"
+    }
+  },
+  "permissions": [
+    "tabs", "<all_urls>",  "notifications", "storage"
+  ],
+  "browser_action": {
+    "default_popup": "popup/popup.html"
+  },
+  "web_accessible_resources": [
+    "icons/*.png", "fonts/*.ttf"
+  ]
+}
