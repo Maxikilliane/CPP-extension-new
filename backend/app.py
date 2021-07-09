@@ -108,6 +108,25 @@ def saveDemographicData():
     #     statuscode = 400
     return jsonify({}), statuscode
 
+@app.route('/saveDisabledSites', methods=['POST'])
+def saveDisabledSites():
+    userId = request.json["userId"]
+    urls = request.json["urls"]
+    data = BlockedUrls.query.filter_by(userId=userId).first()
+    print(data)
+    if data is None:
+        blockedUrls = BlockedUrls(
+            userId=userId,
+            urls=urls
+        )
+        db.session.add(blockedUrls)
+
+    else:
+        data.urls = urls
+    db.session.commit()
+    statuscode = 200
+    return jsonify({}), statuscode
+
 @app.route('/saveAnnotation', methods=['POST'])
 def saveAnnotation():
     performance = time.time() - startTime
@@ -156,6 +175,23 @@ def getAnnotation():
     print("DATA!!!!!",data.data)
     statuscode = 200
     return jsonify({'data' : data.data}), statuscode
+    # except:
+    #     print("unable to read from db")
+    #     statuscode = 400
+    #     return jsonify({'data' : None}), statuscode
+
+@app.route('/getDisabledSites', methods=['POST'])
+def getDisabledSites():
+    userId = request.json["userId"]
+    userId = userId['userId']
+    # try
+    print(userId)
+    urls =  db.session.query(BlockedUrls.urls).filter_by(userId=userId).first()
+    db.session.commit()
+    print("HALLO SVEN :)", urls)
+    statuscode = 200
+    print(urls)
+    return jsonify({'urls' : urls}), statuscode
     # except:
     #     print("unable to read from db")
     #     statuscode = 400

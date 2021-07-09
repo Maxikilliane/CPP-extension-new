@@ -68,3 +68,13 @@ class DemographicData(db.Model):
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
+class BlockedUrls(db.Model):
+    __tablename__ = 'blockedUrls'
+    userId = db.Column(db.String(), primary_key=True)
+    # column format for array
+    urls = db.Column(db.ARRAY(db.String()))
+
+    def __init__(self, userId, urls):
+        self.userId = userId
+        self.urls = urls

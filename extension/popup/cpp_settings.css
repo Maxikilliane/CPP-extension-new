@@ -176,6 +176,18 @@ p {
   padding-bottom: 10px;
 }
 
+.websiteSettings {
+  display: grid;
+  margin-left: 20px;
+}
+
+.disablePlugin {
+  margin-right: 10px !important;
+}
+.onlyUpdates {
+  margin-right: 10px !important;
+}
+
 textarea {
   margin-left: 20px !important;
   margin-bottom: 2em !important;

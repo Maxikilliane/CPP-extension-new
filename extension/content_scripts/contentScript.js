@@ -96,7 +96,7 @@ window.addEventListener('DOMContentLoaded', () => {
       message: "resetQuestionnaireStatus"
     }, function(response) {
     });
-
+console.log("HALLO PENOS", result)
     if (result.data !== undefined) {
       var delayInMilliseconds = 3000;
       console.log("loading annotation from database...", result.data);
@@ -717,14 +717,14 @@ window.browser.runtime.onMessage.addListener((message, sender, sendResponse) => 
     var currentHighlightBubble = bubbles[message.data];
     var response = {
       "bubble": bubbles[message.data].getAttribute('category')
-    }
+    };
     sendResponse(response);
   }
   if (message.action == "getPageUrlForQuestionnaire") {
     sendResponse(window.location.toString());
   }
   if (message.action == "questionnaireFinish") {
-    bubbles[bubbles.length - 1].classList.remove("highlight-questionnaire")
+    bubbles[bubbles.length - 1].classList.remove("highlight-questionnaire");
     sendResponse();
   }
   return true;

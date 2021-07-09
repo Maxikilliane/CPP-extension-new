@@ -78,7 +78,7 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
         sendResponse(status_url);
       },
       error: function(e, s, t) {
-        showErrorBadge()
+        showErrorBadge();
         sendResponse(e, s, t);
       }
     });
@@ -151,6 +151,46 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
     });
     return true;
   }
+
+  if (request.message === "disablePlugin") {
+    var getUserId = new Promise((resolve, reject) => {
+      window.browser.storage.local.get(["userId"], userId => {
+        resolve(userId);
+      });
+    });
+    getUserId.then(function(userId) {
+      var host = new URL(request.url).hostname;
+      window.browser.storage.local.get(["blockedURLs"], function(result) {
+        if (result.blockedURLs === undefined) {
+          result.blockedURLs = [];
+        }
+        if (request.checked) {
+          result.blockedURLs.push(host);
+        } else {
+          result.blockedURLs = result.blockedURLs.filter(item => item !== host);
+        }
+        window.browser.storage.local.set({
+          "blockedURLs": result.blockedURLs
+        });
+        var disablePlugin = {
+          "userId": userId.userId,
+          "urls": result.blockedURLs
+        };
+        console.log(disablePlugin);
+
+        $.ajax({
+          url: `http://127.0.0.1:5000/saveDisabledSites`,
+          // url: `https://contextual-pp-backend.herokuapp.com/saveDisabledSites`,
+          type: "POST",
+          dataType: 'json',
+          contentType: 'application/json; charset=utf-8',
+          data: JSON.stringify(disablePlugin),
+          success: function(data, status) {},
+          error: function(e, s, t) {}
+        });
+      });
+    });
+  }
   if (request.message === "saveDemographics") {
     window.browser.storage.local.get(["isFirstTime"], function(result) {
       window.browser.storage.local.set({
@@ -197,93 +237,166 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
       });
     });
 
-    getUrl.then(function(url) {
-
-      currentUrl = url;
-
-      window.browser.storage.local.get(["questionnaireData"], function(questionnaireData) {
-
-        var getUserId = new Promise((resolve, reject) => {
-          window.browser.storage.local.get(["userId"], userId => {
-            resolve(userId);
-          });
-        });
-        getUserId.then(function(userId) {
-
-          var entry;
-          var ratings;
-
-          if (!(url in questionnaireData["questionnaireData"])) {
-            entry = {};
-            ratings = {};
-            ratings[counter] = {};
-            entry["userId"] = userId;
-            entry["ratings"] = [];
-            entry["ratings"] = ratings;
-            questionnaireData["questionnaireData"][url] = entry;
-          } else {
-            entry = questionnaireData["questionnaireData"][url];
-            ratings = questionnaireData["questionnaireData"][url]["ratings"];
-            console.log("retrievedRatings", ratings)
-          }
-
-          if (ratings[counter] === undefined) {
-            ratings[counter] = {};
-          }
-
-          var type = request.type;
-          var assessment = request.rating;
-
-          ratings[counter]["number"] = counter;
-          ratings[counter]["userId"] = userId.userId;
-          ratings[counter]["url"] = currentUrl;
-          ratings[counter]["bubbleCategory"] = currentCategory;
-          ratings[counter]["notVisible"] = false;
-          ratings[counter][type] = assessment;
-
-          entry["ratings"] = ratings;
-          questionnaireData["questionnaireData"][url] = entry;
-
-          if (questionnaireData["questionnaireData"] != undefined) {
-            questionnaireData = questionnaireData["questionnaireData"];
-          }
-          window.browser.storage.local.set({
-            "questionnaireData": questionnaireData
-          });
-        });
-      });
-    });
-    console.log("questionnaire", request.type, request.rating);
+    // getUrl.then(function(url) {
+    //
+    //   currentUrl = url;
+    //
+    //   window.browser.storage.local.get(["questionnaireData"], function(questionnaireData) {
+    //
+    //     var getUserId = new Promise((resolve, reject) => {
+    //       window.browser.storage.local.get(["userId"], userId => {
+    //         resolve(userId);
+    //       });
+    //     });
+    //     getUserId.then(function(userId) {
+    //
+    //       var entry;
+    //       var ratings;
+    //
+    //       if (!(url in questionnaireData["questionnaireData"])) {
+    //         entry = {};
+    //         ratings = {};
+    //         ratings[counter] = {};
+    //         entry["userId"] = userId;
+    //         entry["ratings"] = [];
+    //         entry["ratings"] = ratings;
+    //         questionnaireData["questionnaireData"][url] = entry;
+    //       } else {
+    //         entry = questionnaireData["questionnaireData"][url];
+    //         ratings = questionnaireData["questionnaireData"][url]["ratings"];
+    //         console.log("retrievedRatings", ratings)
+    //       }
+    //
+    //       if (ratings[counter] === undefined) {
+    //         ratings[counter] = {};
+    //       }
+    //
+    //       var type = request.type;
+    //       var assessment = request.rating;
+    //
+    //       ratings[counter]["number"] = counter;
+    //       ratings[counter]["userId"] = userId.userId;
+    //       ratings[counter]["url"] = currentUrl;
+    //       ratings[counter]["bubbleCategory"] = currentCategory;
+    //       ratings[counter]["notVisible"] = false;
+    //       ratings[counter][type] = assessment;
+    //
+    //       entry["ratings"] = ratings;
+    //       questionnaireData["questionnaireData"][url] = entry;
+    //
+    //       if (questionnaireData["questionnaireData"] != undefined) {
+    //         questionnaireData = questionnaireData["questionnaireData"];
+    //       }
+    //       window.browser.storage.local.set({
+    //         "questionnaireData": questionnaireData
+    //       });
+    //     });
+    //   });
+    // });
+    // console.log("questionnaire", request.type, request.rating);
   }
   if (request.message === "getAnnotation") {
+    console.log("get annotation")
     var promise = new Promise(function(resolve, reject) {
-      $.ajax({
-        url: `http://127.0.0.1:5000/getAnnotation`,
-        // url: `https://contextual-pp-backend.herokuapp.com/getAnnotation`,
-        type: "POST",
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify({
-          "url": request.url
-        }),
-        success: function(data, status) {
-          saveCurrentAnnotationsToLocalStorage(request.url, data);
-          resolve(data);
-        },
-        error: function(e, s, t) {
-          showErrorBadge();
-          sendResponse(e, s, t);
-        }
+
+      const getUserId = new Promise((resolve, reject) => {
+        window.browser.storage.local.get(["userId"], userId => {
+          resolve(userId);
+        });
+      });
+      getUserId.then(function(userId) {
+        var promise = new Promise(function(resolve, reject) {
+          $.ajax({
+            url: `http://127.0.0.1:5000/getDisabledSites`,
+            // url: `https://contextual-pp-backend.herokuapp.com/getDisabledSites`,
+            type: "POST",
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({
+              "userId": userId
+            }),
+            success: function(data, status) {
+              console.log("get annotation 2", data.urls);
+              if (data.urls == null || !data.urls[0].includes(request.url)) {
+                console.log("get annotation 3");
+                $.ajax({
+                  url: `http://127.0.0.1:5000/getAnnotation`,
+                  // url: `https://contextual-pp-backend.herokuapp.com/getAnnotation`,
+                  type: "POST",
+                  dataType: 'json',
+                  contentType: 'application/json; charset=utf-8',
+                  data: JSON.stringify({
+                    "url": request.url
+                  }),
+                  success: function(data, status) {
+                    console.log("im resolve", data)
+                    saveCurrentAnnotationsToLocalStorage(request.url, data);
+                    sendResponse(data);
+                  },
+                  error: function(e, s, t) {
+                    showErrorBadge();
+                    sendResponse(e, s, t);
+                  }
+                });
+              }
+            },
+            error: function(e, s, t) {
+              sendResponse(e, s, t);
+            }
+          });
+        });
       });
     });
+
     promise.then(function(result) {
       sendResponse(result);
     });
+
     return true;
   }
   if (request.message === "questionnaireStatus") {
     window.browser.storage.local.get(["questionnaireProgress"], function(result) {
       sendResponse(result.questionnaireProgress);
+    });
+    return true;
+  }
+  if (request.message === "disabledUrls") {
+    const promise = new Promise(function(resolve, reject) {
+
+      const getUserId = new Promise((resolve, reject) => {
+        window.browser.storage.local.get(["userId"], userId => {
+          resolve(userId);
+        });
+      });
+      getUserId.then(function(userId) {
+        var promise = new Promise(function(resolve, reject) {
+          $.ajax({
+            url: `http://127.0.0.1:5000/getDisabledSites`,
+            // url: `https://contextual-pp-backend.herokuapp.com/getDisabledSites`,
+            type: "POST",
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({
+              "userId": userId
+            }),
+            success: function(data, status) {
+              console.log("HALLO", data.urls);
+              if (data.urls !== null) {
+                console.log("checkbox checked", request.url,data.urls[0].includes(request.url))
+                sendResponse(data.urls[0].includes(request.url));
+              } else {
+                sendResponse(false);
+              }
+            },
+            error: function(e, s, t) {
+              sendResponse(e, s, t);
+            }
+          });
+        });
+      });
+    });
+    promise.then(function(result) {
+      sendResponse(result);
     });
     return true;
   }
@@ -593,6 +706,7 @@ function saveNoBubblesData(port) {
     });
   });
 }
+
 function showSuccessBadge() {
 
   window.browser.browserAction.setBadgeBackgroundColor({
@@ -706,6 +820,7 @@ function saveCurrentAnnotationsToLocalStorage(url, data) {
     });
   });
 }
+
 
 window.browser.commands.onCommand.addListener(function(command) {
   if (command == "delete-cpps") {
