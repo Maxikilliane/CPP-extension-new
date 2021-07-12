@@ -35,6 +35,24 @@
     console.log("Checkbox is checked..", disablePluginCheckbox.checked);
   });
 
+  var enableUpdatesCheckbox = document.getElementById("enableUpdates");
+  enableUpdatesCheckbox.addEventListener('change', function() {
+    tab = chrome.tabs.query({
+      active: true,
+      currentWindow: true
+    }, function(tabs) {
+
+      var currentTab = tabs[0]; // there will be only one in this array
+      window.browser.runtime.sendMessage({
+          message: "enableUpdates",
+          url: currentTab.url,
+          checked: enableUpdatesCheckbox.checked
+        },
+        function(response) {});
+    });
+    console.log("Enable Updates Checkbox is checked..", enableUpdatesCheckbox.checked);
+  });
+
 
   var start = document.getElementById("start");
   var questionnaire = document.getElementById("questionnaire");
@@ -95,6 +113,28 @@
           resolve(response);
           console.log("hier bin ich", response)
           document.getElementById("disablePlugin").checked = response;
+        });
+    });
+
+
+  });
+
+  var getOnlyUpdatesUrls = new Promise((resolve, reject) => {
+    tab = chrome.tabs.query({
+      active: true,
+      currentWindow: true
+    }, function(tabs) {
+
+      var currentTab = tabs[0]; // there will be only one in this array
+      var host = new URL(currentTab.url).hostname;
+      window.browser.runtime.sendMessage({
+          message: "onlyUpdatesUrls",
+          url: host
+        },
+        response => {
+          resolve(response);
+          console.log("hier bin ich", response)
+          document.getElementById("enableUpdates").checked = response;
         });
     });
 

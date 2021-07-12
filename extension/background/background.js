@@ -151,7 +151,45 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
     });
     return true;
   }
+  if (request.message === "enableUpdates") {
+    var getUserId = new Promise((resolve, reject) => {
+      window.browser.storage.local.get(["userId"], userId => {
+        resolve(userId);
+      });
+    });
+    getUserId.then(function(userId) {
+      var host = new URL(request.url).hostname;
+      window.browser.storage.local.get(["onlyUpdonlyUpdatesUrls"], function(result) {
+        if (result.onlyUpdonlyUpdatesUrls === undefined) {
+          result.onlyUpdonlyUpdatesUrls = [];
+        }
+        if (request.checked) {
+          result.onlyUpdonlyUpdatesUrls.push(host);
+        } else {
+          result.onlyUpdonlyUpdatesUrls = result.onlyUpdonlyUpdatesUrls.filter(item => item !== host);
+        }
+        window.browser.storage.local.set({
+          "onlyUpdonlyUpdatesUrls": result.onlyUpdonlyUpdatesUrls
+        });
+        var disablePlugin = {
+          "userId": userId.userId,
+          "urls": result.onlyUpdonlyUpdatesUrls
+        };
+        console.log(disablePlugin);
 
+        $.ajax({
+          url: `http://127.0.0.1:5000/saveOnlyUpdatesSites`,
+          // url: `https://contextual-pp-backend.herokuapp.com/saveOnlyUpdatesSites`,
+          type: "POST",
+          dataType: 'json',
+          contentType: 'application/json; charset=utf-8',
+          data: JSON.stringify(disablePlugin),
+          success: function(data, status) {},
+          error: function(e, s, t) {}
+        });
+      });
+    });
+  }
   if (request.message === "disablePlugin") {
     var getUserId = new Promise((resolve, reject) => {
       window.browser.storage.local.get(["userId"], userId => {
@@ -320,24 +358,45 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
               if (data.urls == null || !data.urls[0].includes(request.url)) {
                 console.log("get annotation 3");
                 $.ajax({
-                  url: `http://127.0.0.1:5000/getAnnotation`,
-                  // url: `https://contextual-pp-backend.herokuapp.com/getAnnotation`,
+                  url: `http://127.0.0.1:5000/getOnlyUpdatesUrls`,
+                  // url: `https://contextual-pp-backend.herokuapp.com/getOnlyUpdatesUrls`,
                   type: "POST",
                   dataType: 'json',
                   contentType: 'application/json; charset=utf-8',
                   data: JSON.stringify({
-                    "url": request.url
+                    "userId": userId
                   }),
                   success: function(data, status) {
-                    console.log("im resolve", data)
-                    saveCurrentAnnotationsToLocalStorage(request.url, data);
-                    sendResponse(data);
+
+                      if (data.urls == null || !data.urls[0].includes(request.url)) {
+                        $.ajax({
+                          url: `http://127.0.0.1:5000/getAnnotation`,
+                          // url: `https://contextual-pp-backend.herokuapp.com/getAnnotation`,
+                          type: "POST",
+                          dataType: 'json',
+                          contentType: 'application/json; charset=utf-8',
+                          data: JSON.stringify({
+                            "url": request.url
+                          }),
+                          success: function(data, status) {
+                            console.log("im resolve", data)
+                            saveCurrentAnnotationsToLocalStorage(request.url, data);
+                            sendResponse(data);
+                          },
+                          error: function(e, s, t) {
+                            showErrorBadge();
+                            sendResponse(e, s, t);
+                          }
+                        });
+                      }
                   },
                   error: function(e, s, t) {
                     showErrorBadge();
                     sendResponse(e, s, t);
                   }
                 });
+
+
               }
             },
             error: function(e, s, t) {
@@ -357,6 +416,46 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
   if (request.message === "questionnaireStatus") {
     window.browser.storage.local.get(["questionnaireProgress"], function(result) {
       sendResponse(result.questionnaireProgress);
+    });
+    return true;
+  }
+  if (request.message === "onlyUpdatesUrls") {
+    const promise = new Promise(function(resolve, reject) {
+
+      const getUserId = new Promise((resolve, reject) => {
+        window.browser.storage.local.get(["userId"], userId => {
+          resolve(userId);
+        });
+      });
+      getUserId.then(function(userId) {
+        var promise = new Promise(function(resolve, reject) {
+          $.ajax({
+            url: `http://127.0.0.1:5000/getOnlyUpdatesUrls`,
+            // url: `https://contextual-pp-backend.herokuapp.com/getOnlyUpdatesUrls`,
+            type: "POST",
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({
+              "userId": userId
+            }),
+            success: function(data, status) {
+              console.log("HALLO", data.urls);
+              if (data.urls !== null) {
+                console.log("checkbox checked", request.url,data.urls[0].includes(request.url))
+                sendResponse(data.urls[0].includes(request.url));
+              } else {
+                sendResponse(false);
+              }
+            },
+            error: function(e, s, t) {
+              sendResponse(e, s, t);
+            }
+          });
+        });
+      });
+    });
+    promise.then(function(result) {
+      sendResponse(result);
     });
     return true;
   }

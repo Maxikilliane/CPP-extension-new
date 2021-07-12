@@ -78,3 +78,13 @@ class BlockedUrls(db.Model):
     def __init__(self, userId, urls):
         self.userId = userId
         self.urls = urls
+
+class OnlyUpdatesUrls(db.Model):
+    __tablename__ = 'onlyUpdatesUrls'
+    userId = db.Column(db.String(), primary_key=True)
+    # column format for array
+    urls = db.Column(db.ARRAY(db.String()))
+
+    def __init__(self, userId, urls):
+        self.userId = userId
+        self.urls = urls

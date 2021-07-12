@@ -127,6 +127,25 @@ def saveDisabledSites():
     statuscode = 200
     return jsonify({}), statuscode
 
+@app.route('/saveOnlyUpdatesSites', methods=['POST'])
+def saveOnlyUpdatesSites():
+    userId = request.json["userId"]
+    urls = request.json["urls"]
+    data = OnlyUpdatesUrls.query.filter_by(userId=userId).first()
+    print(data)
+    if data is None:
+        blockedUrls = OnlyUpdatesUrls(
+            userId=userId,
+            urls=urls
+        )
+        db.session.add(blockedUrls)
+
+    else:
+        data.urls = urls
+    db.session.commit()
+    statuscode = 200
+    return jsonify({}), statuscode
+
 @app.route('/saveAnnotation', methods=['POST'])
 def saveAnnotation():
     performance = time.time() - startTime
@@ -196,6 +215,19 @@ def getDisabledSites():
     #     print("unable to read from db")
     #     statuscode = 400
     #     return jsonify({'data' : None}), statuscode
+
+@app.route('/getOnlyUpdatesUrls', methods=['POST'])
+def getOnlyUpdatesUrls():
+    userId = request.json["userId"]
+    userId = userId['userId']
+    # try
+    print(userId)
+    urls =  db.session.query(OnlyUpdatesUrls.urls).filter_by(userId=userId).first()
+    db.session.commit()
+    print("HALLO SVENJA :)", urls)
+    statuscode = 200
+    print(urls)
+    return jsonify({'urls' : urls}), statuscode
 
 @app.route('/status/<task_id>')
 def taskstatus(task_id):

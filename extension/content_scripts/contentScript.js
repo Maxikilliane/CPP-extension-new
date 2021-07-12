@@ -96,7 +96,6 @@ window.addEventListener('DOMContentLoaded', () => {
       message: "resetQuestionnaireStatus"
     }, function(response) {
     });
-console.log("HALLO PENOS", result)
     if (result.data !== undefined) {
       var delayInMilliseconds = 3000;
       console.log("loading annotation from database...", result.data);
@@ -545,6 +544,7 @@ function extractInfoToDisplay(result, predicate, isMainCategory) {
       }
     }
   }
+  sentencesToShow = [...new Set(sentencesToShow)];
   return sentencesToShow;
 }
 
@@ -698,6 +698,7 @@ window.browser.runtime.onMessage.addListener((message, sender, sendResponse) => 
   if (message.action == "deleteCpps") {
     var elements = document.getElementsByClassName("cppBox");
     while (elements.length > 0) {
+      console.log(elements[0])
       elements[0].parentNode.removeChild(elements[0]);
     }
   }

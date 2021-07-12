@@ -41,7 +41,7 @@ label {
 
 #statusHeader {
   padding-top: 10px;
-  color: white;
+  color: black;
   font-size: 1.2em;
   padding-left: 10px;
   padding-right: 10px;
@@ -56,7 +56,7 @@ label {
 }
 
 #statusText {
-  color: white;
+  color: black;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -66,12 +66,12 @@ label {
 }
 
 .success {
-  background-color: #43A047;
+  background-color: rgba(30, 130, 76, 0.4);
   display: block;
 }
 
 .error {
-  background-color: #B71C1C;
+  background-color: rgba(207, 0, 15, 0.4);;
   display: block;
 }
 
@@ -183,6 +183,11 @@ p {
 
 .disablePlugin {
   margin-right: 10px !important;
+}
+
+#checkboxText {
+  font-size: 1.1em;
+  color: black;
 }
 .onlyUpdates {
   margin-right: 10px !important;
