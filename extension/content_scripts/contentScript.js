@@ -295,7 +295,9 @@ function getContexts(result) {
   getElementById(["ads", "Ads"], "Advertising", result);
   getElementById(["user"], "User with account", result);
   getElementById(["cart", "carts", "checkout", "payment"], "Financial", result);
-  getElementByText(["a", "p"], ["address", "location", "Regensburg"], "Location", result);
+  getElementById(["address", "location", "loc", "ip", "geolocation"], "Location", result);
+  getElementByClassName(["address", "location", "loc", "geolocation"], "Location", result);
+  getElementByClassName(["twitter", "facebook", "pinterest", "linkedin", "instagram"], "Social media data", result);
 }
 
 let bubbles = [];
@@ -353,6 +355,7 @@ function showPPInfo(parentElem, result, predicate, isMainCategory) {
           rect1.top >= rect2.bottom);
         if (overlap) {
           if (cpp.getAttribute("category") === closestBox[0].getAttribute("category")) {
+            console.log("removed", cpp)
             cpp.style.display = "none";
             bubbles = bubbles.filter(function(item) {
               return item !== cpp;
@@ -361,6 +364,7 @@ function showPPInfo(parentElem, result, predicate, isMainCategory) {
             cpp.style.marginLeft = "45px";
           }
         }
+        console.log("BUBBLES", bubbles)
 
       }
 
@@ -591,6 +595,27 @@ function showPPInfoForAds(result) {
             var splitElementAsDocElement = document.getElementsByClassName(splitElement);
             for (let element of splitElementAsDocElement) {
               showPPInfo(element, result, "Advertising", false);
+            }
+          }
+        });
+      }
+    });
+  }
+}
+
+function getElementByClassName(keywords, predicate, result) {
+  if (!window.location.href.includes("facebook")) {
+    var all = document.getElementsByTagName("*");
+    document.querySelectorAll('*').forEach(function(superElement) {
+      var element = superElement.getAttribute("class");
+      if (typeof element === 'string') {
+        element = element.split(" ");
+        element.forEach(function(splitElement) {
+          for (const keyword of keywords) {
+            if (splitElement.includes(keyword)) {
+              var splitElementAsDocElement = document.getElementsByClassName(splitElement);
+              showPPInfo(splitElementAsDocElement[0], result, predicate, false);
+
             }
           }
         });

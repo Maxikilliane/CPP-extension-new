@@ -67,8 +67,8 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
       "segments": request.data
     };
     $.ajax({
-      url: `http://127.0.0.1:5000/predict`,
-      // url: `https://contextual-pp-backend.herokuapp.com/predict`,
+      // url: `http://127.0.0.1:5000/predict`,
+      url: `https://contextual-pp-backend.herokuapp.com/predict`,
       contentType: "application/json; charset=utf-8",
       type: "POST",
       dataType: 'json',
@@ -90,8 +90,8 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
       "url": request.data
     };
     $.ajax({
-      url: `http://127.0.0.1:5000/segments`,
-      // url: `https://contextuafl-pp-backend.herokuapp.com/segments`,
+      // url: `http://127.0.0.1:5000/segments`,
+      url: `https://contextual-pp-backend.herokuapp.com/segments`,
       type: "POST",
       dataType: 'json',
       contentType: 'application/json; charset=utf-8',
@@ -178,8 +178,8 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
         console.log(disablePlugin);
 
         $.ajax({
-          url: `http://127.0.0.1:5000/saveOnlyUpdatesSites`,
-          // url: `https://contextual-pp-backend.herokuapp.com/saveOnlyUpdatesSites`,
+          // url: `http://127.0.0.1:5000/saveOnlyUpdatesSites`,
+          url: `https://contextual-pp-backend.herokuapp.com/saveOnlyUpdatesSites`,
           type: "POST",
           dataType: 'json',
           contentType: 'application/json; charset=utf-8',
@@ -217,8 +217,8 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
         console.log(disablePlugin);
 
         $.ajax({
-          url: `http://127.0.0.1:5000/saveDisabledSites`,
-          // url: `https://contextual-pp-backend.herokuapp.com/saveDisabledSites`,
+          // url: `http://127.0.0.1:5000/saveDisabledSites`,
+          url: `https://contextual-pp-backend.herokuapp.com/saveDisabledSites`,
           type: "POST",
           dataType: 'json',
           contentType: 'application/json; charset=utf-8',
@@ -249,8 +249,8 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
         "occupationDesc": request.occupationDesc
       };
       $.ajax({
-        url: `http://127.0.0.1:5000/saveDemographics`,
-        // url: `https://contextual-pp-backend.herokuapp.com/saveDemographics`,
+        // url: `http://127.0.0.1:5000/saveDemographics`,
+        url: `https://contextual-pp-backend.herokuapp.com/saveDemographics`,
         type: "POST",
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
@@ -345,8 +345,8 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
       getUserId.then(function(userId) {
         var promise = new Promise(function(resolve, reject) {
           $.ajax({
-            url: `http://127.0.0.1:5000/getDisabledSites`,
-            // url: `https://contextual-pp-backend.herokuapp.com/getDisabledSites`,
+            // url: `http://127.0.0.1:5000/getDisabledSites`,
+            url: `https://contextual-pp-backend.herokuapp.com/getDisabledSites`,
             type: "POST",
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -358,8 +358,8 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
               if (data.urls == null || !data.urls[0].includes(request.url)) {
                 console.log("get annotation 3");
                 $.ajax({
-                  url: `http://127.0.0.1:5000/getOnlyUpdatesUrls`,
-                  // url: `https://contextual-pp-backend.herokuapp.com/getOnlyUpdatesUrls`,
+                  // url: `http://127.0.0.1:5000/getOnlyUpdatesUrls`,
+                  url: `https://contextual-pp-backend.herokuapp.com/getOnlyUpdatesUrls`,
                   type: "POST",
                   dataType: 'json',
                   contentType: 'application/json; charset=utf-8',
@@ -370,8 +370,8 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
 
                       if (data.urls == null || !data.urls[0].includes(request.url)) {
                         $.ajax({
-                          url: `http://127.0.0.1:5000/getAnnotation`,
-                          // url: `https://contextual-pp-backend.herokuapp.com/getAnnotation`,
+                          // url: `http://127.0.0.1:5000/getAnnotation`,
+                          url: `https://contextual-pp-backend.herokuapp.com/getAnnotation`,
                           type: "POST",
                           dataType: 'json',
                           contentType: 'application/json; charset=utf-8',
@@ -430,8 +430,8 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
       getUserId.then(function(userId) {
         var promise = new Promise(function(resolve, reject) {
           $.ajax({
-            url: `http://127.0.0.1:5000/getOnlyUpdatesUrls`,
-            // url: `https://contextual-pp-backend.herokuapp.com/getOnlyUpdatesUrls`,
+            // url: `http://127.0.0.1:5000/getOnlyUpdatesUrls`,
+            url: `https://contextual-pp-backend.herokuapp.com/getOnlyUpdatesUrls`,
             type: "POST",
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -470,8 +470,8 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
       getUserId.then(function(userId) {
         var promise = new Promise(function(resolve, reject) {
           $.ajax({
-            url: `http://127.0.0.1:5000/getDisabledSites`,
-            // url: `https://contextual-pp-backend.herokuapp.com/getDisabledSites`,
+            // url: `http://127.0.0.1:5000/getDisabledSites`,
+            url: `https://contextual-pp-backend.herokuapp.com/getDisabledSites`,
             type: "POST",
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -525,8 +525,8 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
       "bugReport": request.bugReport
     };
     $.ajax({
-      url: `http://127.0.0.1:5000/saveBugReport`,
-      // url: `https://contextual-pp-backend.herokuapp.com/saveBugReport`,
+      // url: `http://127.0.0.1:5000/saveBugReport`,
+      url: `https://contextual-pp-backend.herokuapp.com/saveBugReport`,
       type: "POST",
       dataType: 'json',
       contentType: 'application/json; charset=utf-8',
@@ -883,8 +883,8 @@ function saveCurrentAnnotations(request) {
     "data": request.data
   };
   $.ajax({
-    url: `http://127.0.0.1:5000/saveAnnotation`,
-    // url: `https://contextual-pp-backend.herokuapp.com/saveAnnotation`,
+    // url: `http://127.0.0.1:5000/saveAnnotation`,
+    url: `https://contextual-pp-backend.herokuapp.com/saveAnnotation`,
     type: "POST",
     dataType: 'json',
     contentType: 'application/json; charset=utf-8',

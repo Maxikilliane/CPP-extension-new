@@ -111,7 +111,6 @@
         },
         response => {
           resolve(response);
-          console.log("hier bin ich", response)
           document.getElementById("disablePlugin").checked = response;
         });
     });
@@ -133,7 +132,6 @@
         },
         response => {
           resolve(response);
-          console.log("hier bin ich", response)
           document.getElementById("enableUpdates").checked = response;
         });
     });
@@ -225,7 +223,7 @@
       statusText.innerHTML = msg.content;
       document.getElementById("status").className = "";
       document.getElementById("status").classList.add("success");
-      document.getElementById("annotationLink").style.display = "block";
+      // document.getElementById("annotationLink").style.display = "block";
     } else if (msg.subject == "Error") {
       // questionnaireButton.style.visibility = "hidden";
       // questionnaireButton.style.display = "none";
