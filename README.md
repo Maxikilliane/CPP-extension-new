@@ -16,3 +16,25 @@ This implementation evolves the CPP extension (https://github.com/Maxikilliane/C
 1. install the dependencies by typing `conda install`
 2. run the backend by executing `app.py`
 3. run celery by executing `celery -A app.celery worker --loglevel=info` 
+
+## The plugin has three states indicated by a small badge on the extension's icon:
+
+### Success: 
+This indicates that either the policy of the page has been annotated before and therefore the annotation was loaded from the database or that the new annotation was successful.
+
+![success icon](https://github.com/Maxikilliane/masters-thesis/blob/master/img/success.png?raw=true)
+
+### Generating: 
+This means that the annotation of the page's policy is currently in progress. Depending on the length of the policy, this can take up to 4 minutes.
+
+![generating icon](https://github.com/Maxikilliane/masters-thesis/blob/master/img/generating.png?raw=true)
+
+### Error: 
+This means that the extension does not work on the page. Most of the time this is because the policy can not be found or the policy is not in English. 
+
+![error icon](https://github.com/Maxikilliane/masters-thesis/blob/master/img/error.png?raw=true)
+
+If the annotation was successful, bubbles with the icon of the CPP extension appear on the page. You can click on them to review the policy's information. If the bubble is placed somewhere at the end of the page and you can't read the text, you can drag the bubble somewhere else to make it easier to read the information. 
+
+
+
