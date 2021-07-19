@@ -301,11 +301,18 @@ function getContexts(result) {
 }
 
 let bubbles = [];
+let previousPredicate;
+
 function showPPInfo(parentElem, result, predicate, isMainCategory) {
   if ((window.location.host == "stackoverflow.com") && (parentElem.tagName == "IFRAME")) {
     console.log('do nothing');
-  } else {
-
+  }
+  console.log(predicate)
+  if (previousPredicate == predicate && window.location.host.includes("amazon.com") && predicate !== "User with account" && predicate !== "Advertising") {
+  console.log('do nothing');
+  }
+  else {
+    previousPredicate = predicate;
     var closestBox = $(parentElem).parent().find('.cppBox').get();
 
     var id = ("" + Math.random()).substring(2);
@@ -364,7 +371,7 @@ function showPPInfo(parentElem, result, predicate, isMainCategory) {
             cpp.style.marginLeft = "45px";
           }
         }
-        console.log("BUBBLES", bubbles)
+
 
       }
 
