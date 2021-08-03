@@ -296,12 +296,33 @@ function getContexts(result) {
   getElementById(["user"], "User with account", result);
   getElementById(["cart", "carts", "checkout", "payment"], "Financial", result);
   getElementById(["address", "location", "loc", "ip", "geolocation"], "Location", result);
-  getElementByClassName(["address", "location", "loc", "geolocation"], "Location", result);
+  // getElementByClassName(["address", "location", "loc", "geolocation"], "Location", result);
   getElementByClassName(["twitter", "facebook", "pinterest", "linkedin", "instagram"], "Social media data", result);
+    removeRedundantBubbles();
 }
 
 let bubbles = [];
 let previousPredicate;
+
+var groupBy = function(xs, key) {
+  return xs.reduce(function(rv, x) {
+
+    (rv[x.getAttribute(key)] = rv[x.getAttribute(key)] || []).push(x);
+    return rv;
+  }, {});
+};
+
+function removeRedundantBubbles() {
+  bubbles = groupBy(bubbles, "category");
+  for (const [key, value] of Object.entries(bubbles)) {
+    if (bubbles[key].length > 2) {
+      for (let i = 2; i < bubbles[key].length; i++) {
+        bubbles[key][i].style.display = "none";
+      }
+    }
+  }
+}
+
 
 function showPPInfo(parentElem, result, predicate, isMainCategory) {
   if ((window.location.host == "stackoverflow.com") && (parentElem.tagName == "IFRAME")) {
