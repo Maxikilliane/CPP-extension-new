@@ -94,8 +94,7 @@ window.addEventListener('DOMContentLoaded', () => {
   promise.then(function(result) {
     window.browser.runtime.sendMessage({
       message: "resetQuestionnaireStatus"
-    }, function(response) {
-    });
+    }, function(response) {});
     if (result.data !== undefined) {
       var delayInMilliseconds = 3000;
       console.log("loading annotation from database...", result.data);
@@ -290,15 +289,18 @@ function getContexts(result) {
   showPPInfoForSocialMedia(result);
   getElementByText(["a", "p"], ["Cookies", "cookies"], "Cookies and tracking elements", result);
   getElementByText(["span", "a"], ["Sign in", "Log in", "Log In", "Sign In", "Sign Up", "LOG IN"], "User with account", result);
-  getElementByText(["a"], ["Log in", "Log In", "Sign In", "Sign up", "Sign Up", "Sign in", "log in"], "User with account", result);
+  getElementByText(["a"], ["Log in", "Log In", "Sign In", "Sign up", "Sign Up", "Sign in", "log in", "Login"], "User with account", result);
   getElementByText(["span"], ["Pricing"], "Financial", result);
   getElementById(["ads", "Ads"], "Advertising", result);
+  getElementById(["login", "profile"], "User with account", result);
   getElementById(["user"], "User with account", result);
+  getElementById(["cookie", "Cookie"], "Cookies and tracking elements", result);
   getElementById(["cart", "carts", "checkout", "payment"], "Financial", result);
   getElementById(["address", "location", "loc", "ip", "geolocation"], "Location", result);
   // getElementByClassName(["address", "location", "loc", "geolocation"], "Location", result);
   getElementByClassName(["twitter", "facebook", "pinterest", "linkedin", "instagram"], "Social media data", result);
-    removeRedundantBubbles();
+  getElementByClassName(["signin", "signup"], "User with account", result);
+  removeRedundantBubbles();
 }
 
 let bubbles = [];
@@ -311,6 +313,7 @@ var groupBy = function(xs, key) {
     return rv;
   }, {});
 };
+
 
 function removeRedundantBubbles() {
   bubbles = groupBy(bubbles, "category");
@@ -330,9 +333,8 @@ function showPPInfo(parentElem, result, predicate, isMainCategory) {
   }
   console.log(predicate)
   if (previousPredicate == predicate && window.location.host.includes("amazon.com") && predicate !== "User with account" && predicate !== "Advertising") {
-  console.log('do nothing');
-  }
-  else {
+    console.log('do nothing');
+  } else {
     previousPredicate = predicate;
     var closestBox = $(parentElem).parent().find('.cppBox').get();
 
@@ -414,7 +416,6 @@ function showPPInfo(parentElem, result, predicate, isMainCategory) {
           }
           parentElem.classList.add("highlight-cpp");
         } else {
-
           var boxes = document.getElementsByClassName("overlay-cpp");
           for (var box of boxes) {
             box.style.display = "0%";
@@ -425,18 +426,13 @@ function showPPInfo(parentElem, result, predicate, isMainCategory) {
             var highlights = document.getElementsByClassName("highlight-cpp");
             for (var highlight of highlights) {
               highlight.classList.remove("highlight-cpp");
-
-
             }
           }
           if (document.getElementsByTagName("header")[0] !== undefined) {
             document.getElementsByTagName("header")[0].style.width = "100%";
           }
-
-
         }
       });
-
       dragElement($(`#${id}`)[0]);
     }
   }

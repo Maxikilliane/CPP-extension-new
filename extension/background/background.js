@@ -67,8 +67,7 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
       "segments": request.data
     };
     $.ajax({
-      // url: `http://127.0.0.1:5000/predict`,
-      url: `https://contextual-pp-backend.herokuapp.com/predict`,
+      url: `http://127.0.0.1:5000/predict`,
       contentType: "application/json; charset=utf-8",
       type: "POST",
       dataType: 'json',
@@ -90,8 +89,7 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
       "url": request.data
     };
     $.ajax({
-      // url: `http://127.0.0.1:5000/segments`,
-      url: `https://contextual-pp-backend.herokuapp.com/segments`,
+      url: `http://127.0.0.1:5000/segments`,
       type: "POST",
       dataType: 'json',
       contentType: 'application/json; charset=utf-8',
@@ -249,8 +247,7 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
         "occupationDesc": request.occupationDesc
       };
       $.ajax({
-        // url: `http://127.0.0.1:5000/saveDemographics`,
-        url: `https://contextual-pp-backend.herokuapp.com/saveDemographics`,
+        url: `http://127.0.0.1:5000/saveDemographics`,
         type: "POST",
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
@@ -334,7 +331,6 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
     // console.log("questionnaire", request.type, request.rating);
   }
   if (request.message === "getAnnotation") {
-    console.log("get annotation")
     var promise = new Promise(function(resolve, reject) {
 
       const getUserId = new Promise((resolve, reject) => {
@@ -345,8 +341,7 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
       getUserId.then(function(userId) {
         var promise = new Promise(function(resolve, reject) {
           $.ajax({
-            // url: `http://127.0.0.1:5000/getDisabledSites`,
-            url: `https://contextual-pp-backend.herokuapp.com/getDisabledSites`,
+            url: `http://127.0.0.1:5000/getDisabledSites`,
             type: "POST",
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -354,12 +349,9 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
               "userId": userId
             }),
             success: function(data, status) {
-              console.log("get annotation 2", data.urls);
               if (data.urls == null || !data.urls[0].includes(request.url)) {
-                console.log("get annotation 3");
                 $.ajax({
-                  // url: `http://127.0.0.1:5000/getOnlyUpdatesUrls`,
-                  url: `https://contextual-pp-backend.herokuapp.com/getOnlyUpdatesUrls`,
+                  url: `http://127.0.0.1:5000/getOnlyUpdatesUrls`,
                   type: "POST",
                   dataType: 'json',
                   contentType: 'application/json; charset=utf-8',
@@ -370,8 +362,7 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
 
                       if (data.urls == null || !data.urls[0].includes(request.url)) {
                         $.ajax({
-                          // url: `http://127.0.0.1:5000/getAnnotation`,
-                          url: `https://contextual-pp-backend.herokuapp.com/getAnnotation`,
+                          url: `http://127.0.0.1:5000/getAnnotation`,
                           type: "POST",
                           dataType: 'json',
                           contentType: 'application/json; charset=utf-8',
@@ -379,7 +370,6 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
                             "url": request.url
                           }),
                           success: function(data, status) {
-                            console.log("im resolve", data)
                             saveCurrentAnnotationsToLocalStorage(request.url, data);
                             sendResponse(data);
                           },
@@ -430,8 +420,7 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
       getUserId.then(function(userId) {
         var promise = new Promise(function(resolve, reject) {
           $.ajax({
-            // url: `http://127.0.0.1:5000/getOnlyUpdatesUrls`,
-            url: `https://contextual-pp-backend.herokuapp.com/getOnlyUpdatesUrls`,
+            url: `http://127.0.0.1:5000/getOnlyUpdatesUrls`,
             type: "POST",
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -439,9 +428,7 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
               "userId": userId
             }),
             success: function(data, status) {
-              console.log("HALLO", data.urls);
               if (data.urls !== null) {
-                console.log("checkbox checked", request.url,data.urls[0].includes(request.url))
                 sendResponse(data.urls[0].includes(request.url));
               } else {
                 sendResponse(false);
@@ -470,8 +457,7 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
       getUserId.then(function(userId) {
         var promise = new Promise(function(resolve, reject) {
           $.ajax({
-            // url: `http://127.0.0.1:5000/getDisabledSites`,
-            url: `https://contextual-pp-backend.herokuapp.com/getDisabledSites`,
+            url: `http://127.0.0.1:5000/getDisabledSites`,
             type: "POST",
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -479,9 +465,7 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
               "userId": userId
             }),
             success: function(data, status) {
-              console.log("HALLO", data.urls);
               if (data.urls !== null) {
-                console.log("checkbox checked", request.url,data.urls[0].includes(request.url))
                 sendResponse(data.urls[0].includes(request.url));
               } else {
                 sendResponse(false);
@@ -504,10 +488,8 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
 
     var getRatings = new Promise((resolve, reject) => {
       window.browser.storage.local.get(["questionnaireData"], function(result) {
-        console.log(result["questionnaireData"][currentUrl])
         if (result["questionnaireData"][currentUrl] !== undefined)
           if (result["questionnaireData"][currentUrl]["ratings"] !== undefined) {
-            console.log("JSON", JSON.stringify(result["questionnaireData"][currentUrl]["ratings"]))
             resolve(JSON.stringify(result["questionnaireData"][currentUrl]["ratings"]));
           }
 
@@ -525,8 +507,7 @@ window.browser.runtime.onMessage.addListener(function(request, sender, sendRespo
       "bugReport": request.bugReport
     };
     $.ajax({
-      // url: `http://127.0.0.1:5000/saveBugReport`,
-      url: `https://contextual-pp-backend.herokuapp.com/saveBugReport`,
+      url: `http://127.0.0.1:5000/saveBugReport`,
       type: "POST",
       dataType: 'json',
       contentType: 'application/json; charset=utf-8',
@@ -590,7 +571,6 @@ chrome.extension.onConnect.addListener(function(port) {
     });
     getIsFirstTime.then(function(isFirstTime) {
       if (msg == "questionnaireNoBubbles") {
-        console.log("no bubbles")
         saveNoBubblesData(port);
       }
       if (msg == "questionnaire") {
@@ -598,7 +578,6 @@ chrome.extension.onConnect.addListener(function(port) {
           var demogrpahicsMsg = {
             subject: "showDemographics"
           }
-          console.log("showDemographics")
           port.postMessage(demogrpahicsMsg);
         } else {
           if (counter < bubbles.length - 1) {
@@ -608,7 +587,6 @@ chrome.extension.onConnect.addListener(function(port) {
               });
             });
             counter = counter + 1;
-            console.log("COUNTER", counter)
             chrome.tabs.query({
               active: true,
               currentWindow: true
@@ -618,7 +596,6 @@ chrome.extension.onConnect.addListener(function(port) {
                 data: counter
               }, function(response) {
                 currentCategory = response.bubble;
-                console.log("antwort vom content:", response);
                 var msg = {
                   subject: "showQuestionnaire",
                   content: response
@@ -626,7 +603,6 @@ chrome.extension.onConnect.addListener(function(port) {
                 port.postMessage(msg);
               });
             });
-            console.log("message received!")
           } else {
             saveQuestionnaireData();
             window.browser.storage.local.get(["overallProgress"], function(result) {
@@ -648,7 +624,6 @@ chrome.extension.onConnect.addListener(function(port) {
                 "questionnaireProgress": "finish"
               });
             });
-            console.log("finish")
             chrome.tabs.query({
               active: true,
               currentWindow: true
@@ -713,7 +688,6 @@ function saveNoBubblesData(port) {
         } else {
           entry = questionnaireData["questionnaireData"][url];
           ratings = questionnaireData["questionnaireData"][url]["ratings"];
-          console.log("retrievedRatings", ratings)
         }
 
         if (ratings[counter] === undefined) {
@@ -746,7 +720,6 @@ function saveNoBubblesData(port) {
             });
           });
           counter = counter + 1;
-          console.log("COUNTER", counter)
           chrome.tabs.query({
             active: true,
             currentWindow: true
@@ -756,7 +729,6 @@ function saveNoBubblesData(port) {
               data: counter
             }, function(response) {
               currentCategory = response.bubble;
-              console.log("antwort vom content:", response);
               var msg = {
                 subject: "showQuestionnaire",
                 content: response
@@ -764,7 +736,6 @@ function saveNoBubblesData(port) {
               port.postMessage(msg);
             });
           });
-          console.log("message received!")
         } else {
           saveQuestionnaireData();
           window.browser.storage.local.get(["overallProgress"], function(result) {
@@ -786,7 +757,6 @@ function saveNoBubblesData(port) {
               "questionnaireProgress": "finish"
             });
           });
-          console.log("finish")
           chrome.tabs.query({
             active: true,
             currentWindow: true
@@ -850,7 +820,6 @@ function showGeneratingBadge() {
 function saveQuestionnaireData() {
   var getCurrentQuestionnaireRatings = new Promise((resolve, reject) => {
     window.browser.storage.local.get(["questionnaireData"], function(result) {
-      console.log(result["questionnaireData"][currentUrl])
       if (result["questionnaireData"][currentUrl] !== undefined) {
         resolve(result["questionnaireData"][currentUrl]);
       }
@@ -865,7 +834,6 @@ function saveQuestionnaireData() {
     };
     $.ajax({
       url: `http://127.0.0.1:5000/saveQuestionnaireData`,
-      // url: `https://contextual-pp-backend.herokuapp.com/saveQuestionnaireData`,
       type: "POST",
       dataType: 'json',
       contentType: 'application/json; charset=utf-8',
@@ -877,14 +845,12 @@ function saveQuestionnaireData() {
 }
 
 function saveCurrentAnnotations(request) {
-  console.log(dataToSave);
   var dataToSave = {
     "baseUrl": request.baseUrl,
     "data": request.data
   };
   $.ajax({
-    // url: `http://127.0.0.1:5000/saveAnnotation`,
-    url: `https://contextual-pp-backend.herokuapp.com/saveAnnotation`,
+    url: `http://127.0.0.1:5000/saveAnnotation`,
     type: "POST",
     dataType: 'json',
     contentType: 'application/json; charset=utf-8',
