@@ -125,65 +125,21 @@ window.addEventListener('DOMContentLoaded', () => {
         if (allUrls[0].baseURI.includes("google")) {
           finalPrivacyURL = "https://www.gstatic.com/policies/privacy/pdf/20200331/acec359e/google_privacy_policy_en_eu.pdf";
         }
-        if (allUrls[0].baseURI.includes("zillow")) {
-          finalPrivacyURL = "https://www.zillowgroup.com/zg-privacy-policy/";
-        }
-        if (allUrls[0].baseURI.includes("apple")) {
-          finalPrivacyURL = "https://www.apple.com/legal/privacy/en-ww/";
-        }
-        if (allUrls[0].baseURI.includes("chase")) {
-          finalPrivacyURL = "https://www.chase.com/digital/resources/privacy-security/privacy/online-privacy-policy";
-        }
         if (allUrls[0].baseURI.includes("yahoo")) {
           finalPrivacyURL = "https://www.verizonmedia.com/policies/ie/de/verizonmedia/privacy/index.html";
         }
-        if (allUrls[0].baseURI.includes("bankrate")) {
-          finalPrivacyURL = "https://www.bankrate.com/privacy/";
-        }
-        if (allUrls[0].baseURI.includes("slack")) {
-          finalPrivacyURL = "https://slack.com/intl/en-de/trust/privacy/privacy-policy?geocode=en-de";
-        }
-        if (allUrls[0].baseURI.includes("linkedin")) {
-          finalPrivacyURL = "https://www.linkedin.com/legal/privacy-policy";
-        }
         if (allUrls[0].baseURI.includes("azure")) {
           finalPrivacyURL = "https://privacy.microsoft.com/en-us/privacystatement";
-        }
-        if (allUrls[0].baseURI.includes("woot")) {
-          finalPrivacyURL = "https://www.woot.com/privacy?ref=w_ngf_pp";
         }
       } else {
         if (urls.length != 0) {
           if (urls[0].includes("wikipedia")) {
             finalPrivacyURL = "https://meta.wikimedia.org/wiki/Privacy_policy";
           }
-          if (urls[0].includes("bing") || urls[0].includes("microsoft") || urls[0].includes("msn") || urls[0].includes("azure")) {
-            finalPrivacyURL = "https://privacy.microsoft.com/en-us/privacystatement";
-          }
-          if (urls[0].includes("twitch")) {
-            finalPrivacyURL = "https://www.twitch.tv/p/legal/privacy-notice/";
-          }
-          if (urls[0].includes("nytimes")) {
-            finalPrivacyURL = "https://www.nytimes.com/subscription/privacy-policy#/privacy";
-          }
           if (urls[1].includes("aliexpress")) {
             finalPrivacyURL = "https://helppage.aliexpress.com/buyercenter/questionAnswer.htm?isRouter=0&viewKey=1&id=1000099018&categoryIds=9205401";
           }
-          if (urls[0].includes("linkedin")) {
-            finalPrivacyURL = "https://www.linkedin.com/legal/privacy-policy";
-          }
-          if (urls[0].includes("tiktok")) {
-            finalPrivacyURL = "https://www.tiktok.com/legal/privacy-policy?lang=en";
-          }
-          if (urls[0].includes("bankrate")) {
-            finalPrivacyURL = "https://www.bankrate.com/privacy/";
-          }
         }
-        if (window.location.host == "twitter.com") {
-          finalPrivacyURL = "https://twitter.com/en/privacy";
-        }
-
-
       }
       var promises = [];
       if (allUrls.length == 0) {
@@ -331,7 +287,6 @@ function showPPInfo(parentElem, result, predicate, isMainCategory) {
   if ((window.location.host == "stackoverflow.com") && (parentElem.tagName == "IFRAME")) {
     console.log('do nothing');
   }
-  console.log(predicate)
   if (previousPredicate == predicate && window.location.host.includes("amazon.com") && predicate !== "User with account" && predicate !== "Advertising") {
     console.log('do nothing');
   } else {
@@ -582,15 +537,12 @@ function getAllPredictionsForSentence(index, mainPredictions, attributePredictio
 
     if (prediction[0] == index) {
       for (var i = 1; i < prediction.length; i++) {
-        // console.log("object[prediction[i][0]", object[prediction[i][0]);
         if (object[prediction[i][0]][prediction[i][1]] == undefined) {
           object[prediction[i][0]][prediction[i][1]] = [];
         } else {
           object[prediction[i][0]][prediction[i][1]].push(prediction[0]);
         }
       }
-
-      // console.log("prediction", object);
     }
   }
 }
