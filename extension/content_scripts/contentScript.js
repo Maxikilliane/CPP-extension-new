@@ -259,8 +259,8 @@ function getContexts(result) {
   removeRedundantBubbles();
 }
 
-let bubbles = [];
-let previousPredicate;
+var bubbles = [];
+var previousPredicate;
 
 var groupBy = function(xs, key) {
   return xs.reduce(function(rv, x) {
