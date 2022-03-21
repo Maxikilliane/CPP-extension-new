@@ -13,6 +13,7 @@ This implementation evolves the CPP extension (https://github.com/Maxikilliane/C
 **Requirements**:
 1. you need Python3 
 2. you need the package-manager conda
+3. you need PostgreSQL or another way to store the data of your choice
 
 **Simply install the extension by**:
 1. visiting `chrome://extensions/` 
@@ -21,8 +22,10 @@ This implementation evolves the CPP extension (https://github.com/Maxikilliane/C
 
 **For the extension to work, you must also run the backend**:
 1. install the dependencies by typing `conda install`
-2. run the backend by executing `app.py`
-3. run celery by executing `celery -A app.celery worker --loglevel=info` 
+2. create a database and the corresponding tables as defined in `backend/models.py`
+4. run the backend by executing `app.py`
+5. start redis by executing `redis-server`
+6. run celery by executing `celery -A app.celery worker --loglevel=info` 
 
 ## The plugin has three states indicated by a small badge on the extension's icon:
 
