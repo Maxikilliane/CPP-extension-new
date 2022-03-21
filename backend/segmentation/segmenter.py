@@ -5,7 +5,6 @@ import word2vec
 import classifiers.data_processing as dp
 import urllib3
 import re
-import string
 from classifiers.data_processing import get_weight_matrix, get_tokens
 from sklearn.feature_extraction.text import CountVectorizer
 from segmentation.tools import get_penalty, get_segments
@@ -22,39 +21,30 @@ def removeUnneccessaryElements(soup):
     for script in soup(["script", "style", "nav", "footer", "header", "img", "option", "select", "head", "button"]):
         script.extract()    # rip it out
     for div in soup.find_all("div", {'class':'footer'}):
-        print("PROBLEM: FOOTER")
         div.decompose()
-    # for div in soup.find_all("div", {'class': re.compile(r"sidebar")}):
-    #     div.decompose()
+    for div in soup.find_all("div", {'class': re.compile(r"sidebar")}):
+        div.decompose()
     for div in soup.find_all("div", {'data-testid': re.compile(r"ax-navigation-menubar")}):
         div.decompose()
     for div in soup.find_all("div", {'class': re.compile(r"menu")}):
-        print("PROBLEM: MENU")
         div.decompose()
     for li in soup.find_all("li", {'class': re.compile(r"menu")}):
-        print("PROBLEM: MENU LI")
         li.decompose()
     for p in soup.find_all("p", {'class': re.compile(r"heading")}):
-        print("PROBLEM: HEADING P")
         p.decompose()
     for p in soup.find_all("p", {'class': re.compile(r"fw-bold")}):
-        print("PROBLEM: P BOLD")
         p.decompose()
     for ul in soup.find_all("ul", {'class': re.compile(r"menu")}):
         ul.decompose()
-    # for div in soup.find_all("div", {'class': re.compile(r"header")}):
-    #     print("PROBLEM: HEADER")
-        # div.decompose()
+    for div in soup.find_all("div", {'class': re.compile(r"header")}):
+        div.decompose()
     for div in soup.find_all("div", {'data-referrer': re.compile(r"page_footer")}):
         div.decompose()
     for div in soup.find_all("div", {'id':'footer'}):
-        print("PROBLEM: FOOTER DIV")
         div.decompose()
     for div in soup.find_all("div", {'id': re.compile(r"sidebar")}):
-        print("PROBLEM: SIDEBAR")
         div.decompose()
     for div in soup.find_all("div", {'id': re.compile(r"menu")}):
-        print("PROBLEM: MENU")
         div.decompose()
     for li in soup.find_all("li", {'id': re.compile(r"menu")}):
         li.decompose()
@@ -102,7 +92,6 @@ def makeCoarseSegments(soup):
 
 def segmentatePP(url):
     print("WIR SIND IM SEGMENTER :)", url)
-    length = 0
     if url.find("aliexpress") != -1:
         url = "https://helppage.aliexpress.com/buyercenter/questionAnswer.htm?isRouter=0&viewKey=1&id=1000099018&categoryIds=9205401"
     if url.find("gstatic") != -1:
@@ -119,9 +108,7 @@ def segmentatePP(url):
             for page in pdf.pages:
                 wholeDocument += page.extract_text()
         print("THE WHOLE DOCUMENT")
-        # length = sum([i.strip(string.punctuation).isalpha() for i in wholeDocument.split()])
-        length = len(re.findall(r'\w+', wholeDocument))
-        print("LÄNGE!", length)
+        print(wholeDocument)
         segments = useAlgorithm(wholeDocument)
         print(segments)
     else:
@@ -129,30 +116,23 @@ def segmentatePP(url):
             url = "https://www.amazon.com/gp/help/customer/display.html?ie=UTF8&nodeId=468496&ref_=footer_privacy"
         elif url.find("nytimes") != -1:
             url = "https://www.nytimes.com/subscription/privacy-policy#/privacy"
-        options = webdriver.ChromeOptions()
-        options.add_argument('headless')
-        options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36")
-
-        # start chrome browser
-        browser = webdriver.Chrome(ChromeDriverManager().install(),  chrome_options=options)
-
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--no-sandbox")
+        browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
         browser.get(url)
         html = browser.page_source
         soup = BeautifulSoup(html)
-        print("Das ist das doc: ", soup.get_text())
         browser.quit()
         removeUnneccessaryElements(soup)
-        print("wenn removed", soup)
-        length = len(re.findall(r'\w+', soup.get_text()))
-        print("LÄNGE!", length)
 
          #body = soup.find('body')
         # html = body.findChildren(recursive=False)
         segments = makeCoarseSegments(soup)
                 #print("HALLO I BIMS EIN AMAOZN")
-
     segments = list(filter(None, segments))            #soup.find('div', class="help-content")
-    segments.append(length)
     return segments
 
 

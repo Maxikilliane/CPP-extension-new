@@ -7,6 +7,7 @@ from celery.result import AsyncResult
 import classifiers.predict as predictor
 import os
 import time
+import ssl
 import segmentation.segmenter as segmenterer
 
 url = ""
@@ -113,7 +114,6 @@ def saveDisabledSites():
     userId = request.json["userId"]
     urls = request.json["urls"]
     data = BlockedUrls.query.filter_by(userId=userId).first()
-    print(data)
     if data is None:
         blockedUrls = BlockedUrls(
             userId=userId,
@@ -132,7 +132,6 @@ def saveOnlyUpdatesSites():
     userId = request.json["userId"]
     urls = request.json["urls"]
     data = OnlyUpdatesUrls.query.filter_by(userId=userId).first()
-    print(data)
     if data is None:
         blockedUrls = OnlyUpdatesUrls(
             userId=userId,
@@ -149,11 +148,9 @@ def saveOnlyUpdatesSites():
 @app.route('/saveAnnotation', methods=['POST'])
 def saveAnnotation():
     performance = time.time() - startTime
-    print("PERFORMANCE!", time.time() - startTime, time.time(), startTime)
     url = request.json["baseUrl"]
     data = request.json["data"]
     # try:
-    print("beim speichern:", wordCount)
     annotation=Annotation(
         url=url,
         data=data,
@@ -181,7 +178,6 @@ def saveBugReport():
         db.session.commit()
         statuscode = 200
     except:
-        print("unable to add to db")
         statuscode = 400
     return jsonify({}), statuscode
 
@@ -190,8 +186,6 @@ def getAnnotation():
     url = request.json["url"]
     # try:
     data = Annotation.query.filter_by(url=url).first()
-    print("DATA!!!!!",data.url)
-    print("DATA!!!!!",data.data)
     statuscode = 200
     return jsonify({'data' : data.data}), statuscode
     # except:
@@ -204,12 +198,9 @@ def getDisabledSites():
     userId = request.json["userId"]
     userId = userId['userId']
     # try
-    print(userId)
     urls =  db.session.query(BlockedUrls.urls).filter_by(userId=userId).first()
     db.session.commit()
-    print("HALLO SVEN :)", urls)
     statuscode = 200
-    print(urls)
     return jsonify({'urls' : urls}), statuscode
     # except:
     #     print("unable to read from db")
@@ -221,12 +212,9 @@ def getOnlyUpdatesUrls():
     userId = request.json["userId"]
     userId = userId['userId']
     # try
-    print(userId)
     urls =  db.session.query(OnlyUpdatesUrls.urls).filter_by(userId=userId).first()
     db.session.commit()
-    print("HALLO SVENJA :)", urls)
     statuscode = 200
-    print(urls)
     return jsonify({'urls' : urls}), statuscode
 
 @app.route('/status/<task_id>')
@@ -234,7 +222,6 @@ def taskstatus(task_id):
     task = processing.AsyncResult(task_id)
     if task.state == 'SUCCESS':
         response = task.get()
-        print("DER TYPUS", type(response[len(response)-1]), response)
         if isinstance(response[len(response)-1], int):
         # if response[len(response)-1].isdigit():
             global wordCount
@@ -249,9 +236,7 @@ def taskstatus(task_id):
 @app.route('/status/<task_id>')
 def segmentationstatus(task_id):
     task = segmentate_pp.AsyncResult(task_id)
-    print("hooray")
     if task.state == 'SUCCESS':
-        print("hooray")
         response = task.get()
     else:
         response = None

@@ -13,11 +13,8 @@ def predictAttributeProbabilities(dicty, segments):
     oldSegments = segments
     allMightyPredictions = []
     for query, rowIndeces in dicty.items():
-        print( " query ",query)
-        print("rowIndeces", rowIndeces)
         lookupForLater = [(oldSegments[rowIndex], rowIndex) for rowIndex in rowIndeces]
         segments = [pair[0] for pair in lookupForLater]
-        print('ich predicte', segments)
         labelsDict = dp.attr_value_labels(query)
 
         labels = []
@@ -66,9 +63,6 @@ def predictAttributeProbabilities(dicty, segments):
     for sublist in allMightyPredictions:
         for item in sublist:
             flat_list.append(item)
-
-    print(flat_list)
-    print("SIND ES HIER SCHON ZU VIELE", flat_list)
     return flat_list
 
 def predictProbabilities(query, segments, rowIndex):
@@ -153,7 +147,6 @@ def predict(segments):
     listOfPredictions = []
     predictions = predictProbabilities("Main", segments, None)
     mainPredictions = ("MainPredictions", predictions)
-    print("mainPredictions", mainPredictions)
     listOfPredictions.append(mainPredictions)
     attributePredictions = []
     probabilities = []
@@ -169,21 +162,11 @@ def predict(segments):
             # dictionary[attribute] = rowIndexList
             if attribute in dictionary:
                 oldList = dictionary[attribute]
-                print("oldList", oldList)
-                print("type of oldList", type(oldList))
                 # make entries unique
                 newList = list(set(oldList + [prediction[0]]))
-                print("newList", newList)
                 dictionary[attribute] = newList
             else:
                 dictionary[attribute] = [prediction[0]]
-            print("dictionary",dictionary)
-        #     probabilities = predictProbabilities(attribute, [segments[prediction[0]]], prediction[0])
-        #     print("attribute", attribute)
-        #     print("semgents[prediction[0]]", [segments[prediction[0]]])
-        #     print("prediction[0]", prediction[0])
-        #     if probabilities:
-        #         attributePredictions.append(probabilities[0]
     attributePredictions = predictAttributeProbabilities(dictionary, segments)
     print("sorted", attributePredictions.sort())
     attributePredictionsToAppend =  ("AttributePredictions", attributePredictions)

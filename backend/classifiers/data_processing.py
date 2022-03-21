@@ -332,7 +332,6 @@ def get_fast_text_dicts(input_path, output_path, dims, missing = True, read = Fa
         # print("Loading from file {}".format(word2vector_path))
 
         with open(word2vector_path,"rb") as word2vector_file:
-            print("ICH HAB DAS FILE:)")
 
             word2vector = pickle.load(word2vector_file)
 
